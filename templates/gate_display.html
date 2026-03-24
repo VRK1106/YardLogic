@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OptiSlot Gate Display</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        body {
+            background-color: #1A3C6E;
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            padding: 3vh 0;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #0D7377;
+            font-size: 3.5vh;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .content-area {
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .state-view {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .state-view.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Elements Styling */
+        .pulse {
+            animation: pulse-anim 2s infinite ease-in-out;
+            font-size: 8vh;
+            color: #0D7377;
+            margin-bottom: 2vh;
+        }
+        @keyframes pulse-anim {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        
+        .spinner {
+            border: 6px solid rgba(255,255,255,0.1);
+            border-top: 6px solid #0D7377;
+            border-radius: 50%;
+            width: 8vh;
+            height: 8vh;
+            animation: spin 1s linear infinite;
+            margin-bottom: 3vh;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .plate-box {
+            background: #ffffff;
+            color: #000000;
+            padding: 1vh 4vw;
+            border-radius: 8px;
+            font-size: 4vh;
+            font-weight: bold;
+            font-family: monospace;
+            border: 4px solid #0D7377;
+            margin: 2vh 0;
+            letter-spacing: 2px;
+        }
+        .slot-info {
+            font-size: 3vh;
+            margin: 2vh 0;
+            background: rgba(13, 115, 119, 0.2);
+            padding: 2vh 5vw;
+            border-radius: 12px;
+            border: 1px solid rgba(13, 115, 119, 0.5);
+        }
+        .slot-info span {
+            color: #0D7377;
+            font-weight: bold;
+            font-size: 4vh;
+        }
+        #qrcode {
+            background: white;
+            padding: 2vh;
+            border-radius: 10px;
+            margin: 2vh 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .countdown {
+            font-size: 3vh;
+            color: #0D7377;
+            font-weight: bold;
+            margin-top: 2vh;
+        }
+        h2 { font-size: 4vh; margin-bottom: 1vh; }
+        p { font-size: 2.5vh; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>OptiSlot Gate</h1>
+    </div>
+    
+    <div class="content-area">
+        <!-- State 1: Idle -->
+        <div id="state-idle" class="state-view active">
+            <div class="pulse">🚘</div>
+            <h2>Welcome</h2>
+            <p>Place vehicle at gate</p>
+        </div>
+        
+        <!-- State 2: Processing -->
+        <div id="state-processing" class="state-view">
+            <div class="spinner"></div>
+            <h2>Recognising vehicle...</h2>
+            <div id="proc-plate" class="plate-box" style="display:none; visibility:hidden;"></div>
+        </div>
+        
+        <!-- State 3: Allocated -->
+        <div id="state-allocated" class="state-view">
+            <h2 style="color: #0D7377;">Access Granted</h2>
+            <div id="alloc-plate" class="plate-box"></div>
+            <div id="qrcode"></div>
+            <p style="font-size: 3vh; font-weight:bold;">Scan QR for navigation</p>
+            <div class="slot-info">
+                Slot: <span id="alloc-slot">--</span> | Lvl: <span id="alloc-level">--</span><br>
+                <small id="alloc-dir" style="font-size: 2.2vh; font-weight:normal; opacity:0.9; color:white;">--</small>
+            </div>
+            <div class="countdown">QR Expires in <span id="timer">60</span>s</div>
+        </div>
+        
+        <!-- State 4: Timeout -->
+        <div id="state-timeout" class="state-view">
+            <h2 style="color: #0D7377; font-size: 5vh; font-weight:bold;">Thank you!</h2>
+            <p>Drive safe.</p>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Wake Lock API
+        let wakeLock = null;
+        async function requestWakeLock() {
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('Wake Lock active');
+            } catch (err) {
+                console.error(`Wake Lock error: ${err.name}, ${err.message}`);
+            }
+        }
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                await requestWakeLock();
+            }
+        });
+        requestWakeLock();
+
+        // State Machine
+        let currentState = 'idle';
+        let qrObj = null;
+        let countdownInterval = null;
+        let serverOffset = 0;
+        
+        function showState(stateId) {
+            document.querySelectorAll('.state-view').forEach(el => el.classList.remove('active'));
+            document.getElementById('state-' + stateId).classList.add('active');
+        }
+
+        async function pollState() {
+            try {
+                const res = await fetch('/gate-state');
+                const data = await res.json();
+                
+                // Track server clock skew
+                if(data.server_time) {
+                    serverOffset = Date.now() - (data.server_time * 1000);
+                }
+
+                if (data.state !== currentState) {
+                    currentState = data.state;
+                    
+                    if (currentState === 'idle') {
+                        document.getElementById('proc-plate').style.display = 'none';
+                        document.getElementById('proc-plate').innerText = '';
+                        if(qrObj) { qrObj.clear(); document.getElementById('qrcode').innerHTML=''; qrObj=null; }
+                        clearInterval(countdownInterval);
+                        showState('idle');
+                    } 
+                    else if (currentState === 'processing') {
+                        if (data.plate) {
+                            document.getElementById('proc-plate').innerText = data.plate;
+                            document.getElementById('proc-plate').style.display = 'inline-block';
+                            document.getElementById('proc-plate').style.visibility = 'visible';
+                        }
+                        showState('processing');
+                    }
+                    else if (currentState === 'allocated') {
+                        document.getElementById('alloc-plate').innerText = data.plate;
+                        document.getElementById('alloc-slot').innerText = data.slot;
+                        document.getElementById('alloc-level').innerText = data.level;
+                        document.getElementById('alloc-dir').innerText = data.direction || 'Follow signs';
+                        
+                        // Render QR
+                        if (!qrObj) {
+                            qrObj = new QRCode(document.getElementById("qrcode"), {
+                                text: data.session_url,
+                                width: 220,
+                                height: 220,
+                                colorDark : "#1A3C6E", // Deep Navy
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                        }
+                        
+                        // Start Timer UI loop
+                        clearInterval(countdownInterval);
+                        countdownInterval = setInterval(() => {
+                            let now = (Date.now() - serverOffset)/1000;
+                            let remaining = Math.max(0, Math.ceil(data.expires_at - now));
+                            document.getElementById('timer').innerText = remaining;
+                            if (remaining <= 0) {
+                                clearInterval(countdownInterval);
+                            }
+                        }, 250);
+                        
+                        showState('allocated');
+                        
+                        // Handled automatically internally but frontend has a fallback
+                        setTimeout(() => {
+                            if (currentState === 'allocated') {
+                                currentState = 'timeout';
+                                showState('timeout');
+                                setTimeout(() => {
+                                    if(currentState === 'timeout') {
+                                        currentState = 'idle';
+                                        showState('idle');
+                                    }
+                                }, 3000);
+                            }
+                        }, 60000);
+                    }
+                    else if (currentState === 'timeout') {
+                        clearInterval(countdownInterval);
+                        showState('timeout');
+                        setTimeout(() => {
+                            if(currentState === 'timeout') {
+                                currentState = 'idle';
+                                showState('idle');
+                            }
+                        }, 3000);
+                    }
+                } else if (currentState === 'processing' && data.plate) {
+                    // Update plate rapidly if read partially during processing
+                    document.getElementById('proc-plate').innerText = data.plate;
+                    document.getElementById('proc-plate').style.display = 'inline-block';
+                    document.getElementById('proc-plate').style.visibility = 'visible';
+                }
+            } catch (err) {
+                console.error("Polling error", err);
+            }
+        }
+        
+        setInterval(pollState, 1000);
+    </script>
+</body>
+</html>

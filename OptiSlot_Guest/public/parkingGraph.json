@@ -1,0 +1,529 @@
+{
+    "nodes": {
+        "entry_gate": {
+            "label": "Entry Gate",
+            "type": "entry",
+            "floor": 0,
+            "x": 10,
+            "y": 60,
+            "neighbors": {
+                "path_g1": 12
+            }
+        },
+        "path_g1": {
+            "label": "Main Driveway",
+            "type": "path",
+            "floor": 0,
+            "x": 40,
+            "y": 60,
+            "neighbors": {
+                "entry_gate": 12,
+                "path_zone_a": 15,
+                "path_g2": 20,
+                "landmark_blue_door": 18
+            }
+        },
+        "landmark_blue_door": {
+            "label": "Blue Zone Exit",
+            "type": "landmark",
+            "floor": 0,
+            "x": 40,
+            "y": 90,
+            "neighbors": {
+                "path_g1": 18
+            }
+        },
+        "path_zone_a": {
+            "label": "Zone A Lane",
+            "type": "path",
+            "floor": 0,
+            "x": 25,
+            "y": 40,
+            "neighbors": {
+                "path_g1": 15,
+                "Slot1": 6,
+                "Slot2": 8,
+                "Slot3": 10,
+                "Slot4": 12,
+                "Slot5": 14
+            }
+        },
+        "Slot1": {
+            "label": "Slot 1",
+            "type": "slot",
+            "floor": 0,
+            "x": 10,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a": 6
+            }
+        },
+        "Slot2": {
+            "label": "Slot 2",
+            "type": "slot",
+            "floor": 0,
+            "x": 20,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a": 8
+            }
+        },
+        "Slot3": {
+            "label": "Slot 3",
+            "type": "slot",
+            "floor": 0,
+            "x": 30,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a": 10
+            }
+        },
+        "Slot4": {
+            "label": "Slot 4",
+            "type": "slot",
+            "floor": 0,
+            "x": 40,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a": 12
+            }
+        },
+        "Slot5": {
+            "label": "Slot 5",
+            "type": "slot",
+            "floor": 0,
+            "x": 50,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a": 14
+            }
+        },
+        "path_zone_a2": {
+            "label": "Zone A Lane 2",
+            "type": "path",
+            "floor": 0,
+            "x": 55,
+            "y": 40,
+            "neighbors": {
+                "path_g1": 18,
+                "Slot6": 6,
+                "Slot7": 8,
+                "Slot8": 10,
+                "Slot9": 12,
+                "Slot10": 14
+            }
+        },
+        "Slot6": {
+            "label": "Slot 6",
+            "type": "slot",
+            "floor": 0,
+            "x": 60,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a2": 6
+            }
+        },
+        "Slot7": {
+            "label": "Slot 7",
+            "type": "slot",
+            "floor": 0,
+            "x": 70,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a2": 8
+            }
+        },
+        "Slot8": {
+            "label": "Slot 8",
+            "type": "slot",
+            "floor": 0,
+            "x": 80,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a2": 10
+            }
+        },
+        "Slot9": {
+            "label": "Slot 9",
+            "type": "slot",
+            "floor": 0,
+            "x": 90,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a2": 12
+            }
+        },
+        "Slot10": {
+            "label": "Slot 10",
+            "type": "slot",
+            "floor": 0,
+            "x": 100,
+            "y": 25,
+            "neighbors": {
+                "path_zone_a2": 14
+            }
+        },
+        "path_g2": {
+            "label": "Central Lane",
+            "type": "path",
+            "floor": 0,
+            "x": 70,
+            "y": 60,
+            "neighbors": {
+                "path_g1": 20,
+                "path_zone_a2": 15,
+                "elevator_G": 15,
+                "landmark_info_desk": 12
+            }
+        },
+        "landmark_info_desk": {
+            "label": "Info Desk",
+            "type": "landmark",
+            "floor": 0,
+            "x": 70,
+            "y": 80,
+            "neighbors": {
+                "path_g2": 12
+            }
+        },
+        "elevator_G": {
+            "label": "Elevator (Ground)",
+            "type": "transition",
+            "floor": 0,
+            "x": 100,
+            "y": 60,
+            "neighbors": {
+                "path_g2": 15,
+                "elevator_B1": 8
+            }
+        },
+        "elevator_B1": {
+            "label": "Elevator (B1)",
+            "type": "transition",
+            "floor": -1,
+            "x": 100,
+            "y": 60,
+            "neighbors": {
+                "elevator_G": 8,
+                "path_b1_main": 10
+            }
+        },
+        "path_b1_main": {
+            "label": "B1 Main Lane",
+            "type": "path",
+            "floor": -1,
+            "x": 60,
+            "y": 60,
+            "neighbors": {
+                "elevator_B1": 10,
+                "path_zone_b": 12,
+                "path_zone_b2": 15,
+                "landmark_b1_exit": 20
+            }
+        },
+        "landmark_b1_exit": {
+            "label": "B1 Stairwell Exit",
+            "type": "landmark",
+            "floor": -1,
+            "x": 10,
+            "y": 60,
+            "neighbors": {
+                "path_b1_main": 20
+            }
+        },
+        "path_zone_b": {
+            "label": "Zone B Lane",
+            "type": "path",
+            "floor": -1,
+            "x": 40,
+            "y": 40,
+            "neighbors": {
+                "path_b1_main": 12,
+                "Slot11": 6,
+                "Slot12": 8,
+                "Slot13": 10,
+                "Slot14": 12,
+                "Slot15": 14
+            }
+        },
+        "Slot11": {
+            "label": "Slot 11",
+            "type": "slot",
+            "floor": -1,
+            "x": 15,
+            "y": 25,
+            "neighbors": {
+                "path_zone_b": 6
+            }
+        },
+        "Slot12": {
+            "label": "Slot 12",
+            "type": "slot",
+            "floor": -1,
+            "x": 30,
+            "y": 25,
+            "neighbors": {
+                "path_zone_b": 8
+            }
+        },
+        "Slot13": {
+            "label": "Slot 13",
+            "type": "slot",
+            "floor": -1,
+            "x": 45,
+            "y": 25,
+            "neighbors": {
+                "path_zone_b": 10
+            }
+        },
+        "Slot14": {
+            "label": "Slot 14",
+            "type": "slot",
+            "floor": -1,
+            "x": 60,
+            "y": 25,
+            "neighbors": {
+                "path_zone_b": 12
+            }
+        },
+        "Slot15": {
+            "label": "Slot 15",
+            "type": "slot",
+            "floor": -1,
+            "x": 75,
+            "y": 25,
+            "neighbors": {
+                "path_zone_b": 14
+            }
+        },
+        "path_zone_b2": {
+            "label": "Zone B Lane 2",
+            "type": "path",
+            "floor": -1,
+            "x": 70,
+            "y": 80,
+            "neighbors": {
+                "path_b1_main": 15,
+                "Slot16": 6,
+                "Slot17": 8,
+                "Slot18": 10,
+                "Slot19": 12,
+                "Slot20": 14
+            }
+        },
+        "Slot16": {
+            "label": "Slot 16",
+            "type": "slot",
+            "floor": -1,
+            "x": 15,
+            "y": 90,
+            "neighbors": {
+                "path_zone_b2": 6
+            }
+        },
+        "Slot17": {
+            "label": "Slot 17",
+            "type": "slot",
+            "floor": -1,
+            "x": 30,
+            "y": 90,
+            "neighbors": {
+                "path_zone_b2": 8
+            }
+        },
+        "Slot18": {
+            "label": "Slot 18",
+            "type": "slot",
+            "floor": -1,
+            "x": 45,
+            "y": 90,
+            "neighbors": {
+                "path_zone_b2": 10
+            }
+        },
+        "Slot19": {
+            "label": "Slot 19",
+            "type": "slot",
+            "floor": -1,
+            "x": 60,
+            "y": 90,
+            "neighbors": {
+                "path_zone_b2": 12
+            }
+        },
+        "Slot20": {
+            "label": "Slot 20",
+            "type": "slot",
+            "floor": -1,
+            "x": 75,
+            "y": 90,
+            "neighbors": {
+                "path_zone_b2": 14
+            }
+        },
+        "ramp_B1_B2": {
+            "label": "Ramp (B1→B2)",
+            "type": "transition",
+            "floor": -1,
+            "x": 100,
+            "y": 90,
+            "neighbors": {
+                "path_b1_main": 18,
+                "ramp_B2": 10
+            }
+        },
+        "ramp_B2": {
+            "label": "Ramp (B2)",
+            "type": "transition",
+            "floor": -2,
+            "x": 100,
+            "y": 60,
+            "neighbors": {
+                "ramp_B1_B2": 10,
+                "path_b2_main": 12
+            }
+        },
+        "path_b2_main": {
+            "label": "B2 Main Lane",
+            "type": "path",
+            "floor": -2,
+            "x": 55,
+            "y": 60,
+            "neighbors": {
+                "ramp_B2": 12,
+                "path_zone_c": 10,
+                "path_zone_c2": 14
+            }
+        },
+        "path_zone_c": {
+            "label": "Zone C Lane",
+            "type": "path",
+            "floor": -2,
+            "x": 35,
+            "y": 35,
+            "neighbors": {
+                "path_b2_main": 10,
+                "Slot21": 6,
+                "Slot22": 8,
+                "Slot23": 10,
+                "Slot24": 12,
+                "Slot25": 14
+            }
+        },
+        "Slot21": {
+            "label": "Slot 21",
+            "type": "slot",
+            "floor": -2,
+            "x": 10,
+            "y": 20,
+            "neighbors": {
+                "path_zone_c": 6
+            }
+        },
+        "Slot22": {
+            "label": "Slot 22",
+            "type": "slot",
+            "floor": -2,
+            "x": 25,
+            "y": 20,
+            "neighbors": {
+                "path_zone_c": 8
+            }
+        },
+        "Slot23": {
+            "label": "Slot 23",
+            "type": "slot",
+            "floor": -2,
+            "x": 40,
+            "y": 20,
+            "neighbors": {
+                "path_zone_c": 10
+            }
+        },
+        "Slot24": {
+            "label": "Slot 24",
+            "type": "slot",
+            "floor": -2,
+            "x": 55,
+            "y": 20,
+            "neighbors": {
+                "path_zone_c": 12
+            }
+        },
+        "Slot25": {
+            "label": "Slot 25",
+            "type": "slot",
+            "floor": -2,
+            "x": 70,
+            "y": 20,
+            "neighbors": {
+                "path_zone_c": 14
+            }
+        },
+        "path_zone_c2": {
+            "label": "Zone C Lane 2",
+            "type": "path",
+            "floor": -2,
+            "x": 55,
+            "y": 85,
+            "neighbors": {
+                "path_b2_main": 14,
+                "Slot26": 6,
+                "Slot27": 8,
+                "Slot28": 10,
+                "Slot29": 12,
+                "Slot30": 14
+            }
+        },
+        "Slot26": {
+            "label": "Slot 26",
+            "type": "slot",
+            "floor": -2,
+            "x": 10,
+            "y": 95,
+            "neighbors": {
+                "path_zone_c2": 6
+            }
+        },
+        "Slot27": {
+            "label": "Slot 27",
+            "type": "slot",
+            "floor": -2,
+            "x": 25,
+            "y": 95,
+            "neighbors": {
+                "path_zone_c2": 8
+            }
+        },
+        "Slot28": {
+            "label": "Slot 28",
+            "type": "slot",
+            "floor": -2,
+            "x": 40,
+            "y": 95,
+            "neighbors": {
+                "path_zone_c2": 10
+            }
+        },
+        "Slot29": {
+            "label": "Slot 29",
+            "type": "slot",
+            "floor": -2,
+            "x": 55,
+            "y": 95,
+            "neighbors": {
+                "path_zone_c2": 12
+            }
+        },
+        "Slot30": {
+            "label": "Slot 30",
+            "type": "slot",
+            "floor": -2,
+            "x": 70,
+            "y": 95,
+            "neighbors": {
+                "path_zone_c2": 14
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+test_enforcement (test_pipeline.TestANPRPipeline)
+4. Enforcement cases: Test character map corrections ... ok
+test_enforcement_bh_series (test_pipeline.TestANPRPipeline)
+Test BH specific regex and format enforcement ... ok
+test_integration_camera_trigger (test_pipeline.TestANPRPipeline)
+Integration test: Mock triggers and verify 3 retries then flag. ... FAIL
+test_preprocess (test_pipeline.TestANPRPipeline)
+test_preprocess: Test pipeline preprocessing generates binary images ... ok
+test_regex_validations (test_pipeline.TestANPRPipeline)
+test_regex: valid standard, valid BH, invalid, too short, too long ... ok
+test_startup_check (test_pipeline.TestANPRPipeline)
+1. Startup check: confirm EasyOCR loads once, PaddleOCR absent ... ok
+
+======================================================================
+FAIL: test_integration_camera_trigger (test_pipeline.TestANPRPipeline)
+Integration test: Mock triggers and verify 3 retries then flag.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Non_Academic\Project\Smart_Parking_Traffic_Test\tests\test_pipeline.py", line 81, in test_integration_camera_trigger
+    self.assertEqual(result, {'error': 'No valid plate detected after maximum retries'})
+AssertionError: {'err[31 chars]fter 3 attempts! Chief Cause: Camera hardware [41 chars]st.'} != {'err[31 chars]fter maximum retries'}
++ {'error': 'No valid plate detected after maximum retries'}
+- {'error': 'No valid plate detected after 3 attempts! Chief Cause: Camera '
+-           'hardware failed to provide enough frames for a burst.'}
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.182s
+
+FAILED (failures=1)

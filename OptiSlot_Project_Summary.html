@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OptiSlot — Project Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue: #1A3C6E;
+    --teal: #0D7377;
+    --light-blue: #EEF4FB;
+    --light-teal: #E6F4F4;
+    --gray: #555555;
+    --border: #CCDDEE;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #e8edf2;
+    padding: 30px 20px;
+    color: var(--gray);
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  .header { display: grid; grid-template-columns: 1fr 1fr; }
+  .header-left { background: var(--blue); padding: 18px 22px; }
+  .header-left .college { font-size: 11px; font-weight: 700; color: white; line-height: 1.4; }
+  .header-left .dept { font-size: 9.5px; color: #AACCEE; margin-top: 3px; }
+  .header-right { background: var(--teal); padding: 18px 22px; text-align: right; }
+  .header-right .brand { font-size: 26px; font-weight: 800; color: white; letter-spacing: -0.5px; }
+  .header-right .tagline { font-size: 9.5px; color: #CCEEEE; margin-top: 3px; }
+
+  .body { padding: 18px 24px 20px; }
+
+  .pitch {
+    background: var(--light-blue);
+    border: 1.5px solid var(--teal);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .pitch p { font-size: 10.5px; color: var(--blue); font-style: italic; line-height: 1.65; text-align: center; }
+
+  .section-heading {
+    font-size: 10px; font-weight: 800; color: var(--blue);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-top: 16px; margin-bottom: 4px;
+  }
+  .divider { height: 2.5px; background: var(--teal); margin-bottom: 10px; border-radius: 2px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 4px; }
+  .stat-card { background: var(--light-blue); border: 1px solid var(--border); border-radius: 4px; padding: 10px 8px; text-align: center; }
+  .stat-card .stat-num { font-size: 15px; font-weight: 800; color: var(--blue); line-height: 1.2; }
+  .stat-card .stat-label { font-size: 8.5px; color: var(--gray); margin-top: 4px; line-height: 1.4; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 4px; font-size: 9.5px; }
+
+  .roi-table th { background: var(--blue); color: white; padding: 7px 10px; text-align: center; font-weight: 700; font-size: 9.5px; }
+  .roi-table td { padding: 6px 10px; border: 1px solid var(--border); text-align: center; }
+  .roi-table tr:nth-child(odd) td { background: var(--light-blue); }
+  .roi-table tr:nth-child(even) td { background: white; }
+  .roi-table td:last-child { color: var(--teal); font-weight: 700; }
+  .roi-table td:first-child { text-align: left; font-weight: 600; color: var(--blue); }
+
+  .bullet-list { list-style: none; padding: 0; margin: 6px 0 10px 0; }
+  .bullet-list li { font-size: 10px; color: var(--gray); padding: 3px 0 3px 16px; position: relative; line-height: 1.5; }
+  .bullet-list li::before { content: "•"; position: absolute; left: 4px; color: var(--teal); font-weight: 700; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .team-table td { padding: 7px 12px; border: 1px solid var(--border); font-size: 9.5px; }
+  .team-table td:first-child { background: var(--blue); color: white; font-weight: 700; width: 30%; }
+  .team-table tr:nth-child(2) td:first-child { background: var(--teal); }
+  .team-table td:last-child { background: var(--light-blue); color: var(--blue); font-weight: 600; }
+  .team-table tr:nth-child(2) td:last-child { background: white; color: var(--gray); font-weight: 400; }
+
+  .footer { border-top: 1px solid var(--border); padding: 8px 24px; text-align: center; font-size: 8.5px; color: #999999; }
+
+  .confidential-banner {
+    background: #FFF8E6;
+    border: 1.5px solid #E6A817;
+    border-radius: 4px;
+    padding: 7px 14px;
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 9px;
+    color: #7A5200;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="college">KPR Institute of Engineering and Technology</div>
+      <div class="dept">Department of Computer Science and Engineering</div>
+    </div>
+    <div class="header-right">
+      <div class="brand">OptiSlot</div>
+      <div class="tagline">Edge-to-Cloud Smart Parking System</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- CONFIDENTIAL NOTICE -->
+    <div class="confidential-banner">
+      🔒 CONFIDENTIAL &nbsp;·&nbsp; This document contains proprietary concepts intended solely for internal review. Do not distribute.
+    </div>
+
+    <!-- ELEVATOR PITCH -->
+    <div class="pitch">
+      <p>In large commercial facilities, drivers waste 8–15 minutes just finding a parking slot — costing facilities money in staff, fuel, and lost footfall. OptiSlot eliminates this entirely: our system identifies vehicles at the gate, intelligently allocates the most optimal slot, opens the barrier automatically, and guides the driver — with zero manual intervention, at a fraction of enterprise system costs.</p>
+    </div>
+
+    <!-- TWO-COL: Problem + How It Works -->
+    <div class="two-col">
+      <div>
+        <div class="section-heading">The Problem</div>
+        <div class="divider"></div>
+        <div class="stat-grid" style="grid-template-columns:1fr 1fr; gap:5px;">
+          <div class="stat-card"><div class="stat-num">8–15 min</div><div class="stat-label">Wasted per vehicle finding a slot</div></div>
+          <div class="stat-card"><div class="stat-num">45–90 sec</div><div class="stat-label">Manual entry processing time</div></div>
+          <div class="stat-card"><div class="stat-num">₹60K/mo</div><div class="stat-label">Staff cost per facility (4 gates)</div></div>
+          <div class="stat-card"><div class="stat-num">Zero</div><div class="stat-label">Real-time slot visibility today</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-heading">How It Works</div>
+        <div class="divider"></div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="background:var(--teal);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">1</div>
+            <div style="font-size:9.5px; color:var(--gray);">Vehicle arrives at the entry gate</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="background:var(--teal);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">2</div>
+            <div style="font-size:9.5px; color:var(--gray);">AI-powered vehicle recognition in under 100ms</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="background:var(--teal);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">3</div>
+            <div style="font-size:9.5px; color:var(--gray);">Proprietary algorithm assigns the most optimal slot</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="background:var(--teal);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">4</div>
+            <div style="font-size:9.5px; color:var(--gray);">Boom barrier opens automatically — zero manual input</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="background:var(--teal);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">5</div>
+            <div style="font-size:9.5px; color:var(--gray);">Live dashboard updates instantly via cloud sync</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="background:var(--blue);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">6</div>
+            <div style="font-size:9.5px; color:var(--gray);">Driver navigated to their slot via indoor PWA</div>
+          </div>
+        </div>
+        <div style="margin-top:8px; font-size:9.5px; font-weight:700; color:var(--teal);">⚡ End-to-end: under 3 seconds per vehicle</div>
+      </div>
+    </div>
+
+    <!-- ROI TABLE -->
+    <div class="section-heading" style="margin-top:14px;">Cost Savings & Business Value</div>
+    <div class="divider"></div>
+    <table class="roi-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;">Parameter</th>
+          <th>Current System</th>
+          <th>With OptiSlot</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Entry Staff (4 gates)</td><td>₹48,000–60,000 / month</td><td>₹0 after deployment</td></tr>
+        <tr><td>Entry Processing Time</td><td>45–90 seconds / vehicle</td><td>Under 3 seconds</td></tr>
+        <tr><td>Peak Hour Congestion</td><td>Unmanaged</td><td>Eliminated</td></tr>
+        <tr><td>Slot Utilisation Visibility</td><td>None</td><td>Real-time dashboard</td></tr>
+        <tr><td>Deployment Cost vs Enterprise</td><td>₹2–5 lakhs</td><td>Fraction of that</td></tr>
+      </tbody>
+    </table>
+
+    <!-- TWO-COL: Architecture + Pilot -->
+    <div class="two-col" style="margin-top:12px;">
+      <div>
+        <div class="section-heading">System Architecture</div>
+        <div class="divider"></div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="background:var(--light-blue); border:1px solid var(--border); border-radius:4px; padding:8px 12px;">
+            <div style="font-size:9.5px; font-weight:700; color:var(--blue);">Edge Layer</div>
+            <div style="font-size:9px; color:var(--gray); margin-top:2px;">Local high-performance server handles all AI processing and actuation with zero cloud latency</div>
+          </div>
+          <div style="background:var(--light-teal); border:1px solid #B2D8D8; border-radius:4px; padding:8px 12px;">
+            <div style="font-size:9.5px; font-weight:700; color:var(--teal);">Hardware Layer</div>
+            <div style="font-size:9px; color:var(--gray); margin-top:2px;">Proprietary sensor configuration and microcontroller actuation at the gate</div>
+          </div>
+          <div style="background:var(--light-blue); border:1px solid var(--border); border-radius:4px; padding:8px 12px;">
+            <div style="font-size:9.5px; font-weight:700; color:var(--blue);">Cloud Layer</div>
+            <div style="font-size:9px; color:var(--gray); margin-top:2px;">Real-time sync to cloud dashboard — accessible by facility managers from anywhere</div>
+          </div>
+          <div style="background:var(--light-teal); border:1px solid #B2D8D8; border-radius:4px; padding:8px 12px;">
+            <div style="font-size:9.5px; font-weight:700; color:var(--teal);">Navigation Layer</div>
+            <div style="font-size:9px; color:var(--gray); margin-top:2px;">Offline-capable indoor navigation PWA guides drivers to their allocated slot on foot</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-heading">Pilot Proposal</div>
+        <div class="divider"></div>
+        <div style="font-size:9.5px; color:var(--gray); margin-bottom:6px; line-height:1.5;">We seek permission to run a 30-day pilot within our college campus. Requirements:</div>
+        <ul class="bullet-list">
+          <li>One entry gate with camera mounting point</li>
+          <li>A designated section of parking bays</li>
+          <li>Network access for cloud dashboard sync</li>
+          <li>30-day evaluation with full performance report</li>
+        </ul>
+        <div style="background:var(--blue); border-radius:4px; padding:10px 12px; text-align:center; margin-bottom:10px;">
+          <div style="font-size:9.5px; color:white; font-style:italic; line-height:1.6;">Offered at <strong>zero cost</strong> to the institution. In return, we seek a documented case study to support publication and commercialisation.</div>
+        </div>
+        <div style="background:#FFF8E6; border:1px solid #E6A817; border-radius:4px; padding:8px 12px;">
+          <div style="font-size:9px; color:#7A5200; line-height:1.5;"><strong>Next Step Requested:</strong> Guidance on filing a provisional patent before external deployment, and an introduction to the institution's industry liaison for pilot facilitation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="section-heading" style="margin-top:14px;">Project Team</div>
+    <div class="divider"></div>
+    <table class="team-table">
+      <tbody>
+        <tr><td>Team Lead</td><td>Reshekumar V</td></tr>
+        <tr><td>Team Members</td><td>Naveen S &nbsp;|&nbsp; Sanjai M S &nbsp;|&nbsp; Rishapthi J &nbsp;|&nbsp; Pon Prathakshana G &nbsp;|&nbsp; Razeena Tasneem B</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="footer">
+    OptiSlot &nbsp;·&nbsp; KPR Institute of Engineering and Technology &nbsp;·&nbsp; Dept. of Computer Science and Engineering &nbsp;·&nbsp; Confidential
+  </div>
+
+</div>
+</body>
+</html>

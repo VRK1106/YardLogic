@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Vehicle | Smart Parking</title>
+    <!-- Google Fonts for Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --neon-blue: #00f3ff;
+            --neon-green: #00ff9d;
+            --neon-red: #ff2a6d;
+            --dark-bg: #050510;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 42, 109, 0.1) 0%, transparent 20%);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slot-badge {
+            display: inline-block;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .status-info {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+            /* Fix padding overflow */
+        }
+
+        input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--dark-bg);
+            padding: 0 5px;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--neon-blue), #00add8);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+        }
+
+        .btn-danger {
+            background: rgba(255, 42, 109, 0.1);
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+        }
+
+        .btn-danger:hover {
+            background: var(--neon-red);
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(255, 42, 109, 0.4);
+        }
+
+        #message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            min-height: 1.2em;
+        }
+
+        .success {
+            color: var(--neon-green);
+        }
+
+        .error {
+            color: var(--neon-red);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="m-0">Vehicle Check-In</h1>
+            <button onclick="showApiSettings()" class="btn btn-outline-light btn-sm rounded-circle p-0" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; opacity: 0.6; border: 1px solid rgba(255,255,255,0.2);">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+        <div class="slot-badge">
+            <i class="fas fa-parking"></i> <span id="slotIdText">--</span>
+        </div>
+
+        <div class="status-info">
+            <div class="info-row">
+                <span>Current Status:</span>
+                <span class="info-value" id="statusText">LOADING...</span>
+            </div>
+            <div class="info-row" id="expectedRow" style="display:none;">
+                <span>Expected Vehicle:</span>
+                <span class="info-value" id="expectedReg">--</span>
+            </div>
+        </div>
+
+        <form id="verifyForm">
+            <div class="input-group">
+                <label>VEHICLE NUMBER</label>
+                <input type="text" id="vehicleInput" placeholder="Enter Registration No." required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="verifyBtn">
+                <i class="fas fa-check-circle"></i> VERIFY & PARK
+            </button>
+
+            <button type="button" class="btn btn-danger" id="misuseBtn">
+                <i class="fas fa-exclamation-triangle"></i> REPORT MISUSE
+            </button>
+        </form>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        // --- API CONFIGURATION ---
+        // For verify page, we check localStorage first, but guests might not have it.
+        // If not set, we default to the origin (current page's base URL)
+        let API_BASE_URL = localStorage.getItem('parking_api_url') || '';
+        
+        function getApiUrl(endpoint) {
+            return `${API_BASE_URL}${endpoint}`;
+        }
+
+        // Get slot_id from URL query param (?slot_id=A1)
+        const urlParams = new URLSearchParams(window.location.search);
+        const slotId = urlParams.get('slot_id');
+        document.getElementById('slotIdText').innerText = slotId || '??';
+
+        function showApiSettings() {
+            document.getElementById('apiUrlInput').value = API_BASE_URL;
+            document.getElementById('apiSettingsModal').style.display = 'flex';
+        }
+
+        function closeApiSettings() {
+            document.getElementById('apiSettingsModal').style.display = 'none';
+        }
+
+        function saveApiUrl() {
+            let url = document.getElementById('apiUrlInput').value.trim();
+            if (url) {
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'http://' + url;
+                }
+                if (url.endsWith('/')) url = url.slice(0, -1);
+            }
+            localStorage.setItem('parking_api_url', url);
+            location.reload();
+        }
+
+        async function initPage() {
+            if (!API_BASE_URL && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                 // Try to guess from referrer or previous session? 
+                 // For now, just let the fetch fail and show error.
+            }
+
+            if (!slotId) {
+                document.getElementById('message').innerText = "Error: No Slot ID provided in URL.";
+                document.getElementById('verifyForm').style.display = 'none';
+                return;
+            }
+
+            try {
+                const res = await fetch(getApiUrl(`/api/slot_status/${slotId}`));
+                if (!res.ok) throw new Error("Slot not found");
+                const data = await res.json();
+                
+                document.getElementById('statusText').innerText = data.status.toUpperCase();
+                document.getElementById('statusText').style.color = (data.status === 'free' ? '#00ff9d' : '#ff2a6d');
+
+                if (data.reg_num) {
+                    document.getElementById('expectedRow').style.display = 'flex';
+                    document.getElementById('expectedReg').innerText = data.reg_num;
+                    document.getElementById('vehicleInput').value = data.reg_num;
+                }
+
+                if (data.status === 'misuse') {
+                    showMisuseWaiting();
+                }
+            } catch (e) {
+                console.error(e);
+                document.getElementById('message').innerText = "Connection Error: Check API Settings.";
+                // We don't have API settings on this page for guests, usually they just use the URL they came from.
+            }
+        }
+
+        function showMisuseWaiting() {
+            document.getElementById('verifyForm').style.display = 'none';
+            const msg = document.getElementById('message');
+            msg.className = 'error';
+            msg.innerHTML = '<i class="fas fa-clock fa-spin"></i> Misuse Detected. Waiting for Admin Action...';
+            
+            const pollInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(getApiUrl(`/api/slot_status/${slotId}`));
+                    const data = await res.json();
+                    if (data.status === 'occupied') {
+                        clearInterval(pollInterval);
+                        msg.className = 'success';
+                        msg.innerHTML = '<i class="fas fa-check-circle"></i> Authorized by Admin!';
+                        setTimeout(() => location.reload(), 2000);
+                    } else if (data.status === 'free') {
+                        location.reload();
+                    }
+                } catch(e){}
+            }, 2000);
+        }
+
+        document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('verifyBtn');
+            const msg = document.getElementById('message');
+            const input = document.getElementById('vehicleInput');
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(getApiUrl('/process_verification'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        slot_id: slotId,
+                        actual_reg_num: input.value.toUpperCase(),
+                        action: 'verify'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    msg.className = 'success';
+                    msg.innerHTML = `<i class="fas fa-check"></i> ${data.message}`;
+                    setTimeout(() => window.close(), 2000);
+                } else {
+                    msg.className = 'error';
+                    msg.innerHTML = `<i class="fas fa-times"></i> ${data.error}`;
+                    if (data.is_misuse) setTimeout(() => location.reload(), 1500);
+                }
+            } catch (err) {
+                msg.className = 'error';
+                msg.textContent = 'Connection Error';
+            }
+
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> VERIFY & PARK';
+            btn.disabled = false;
+        });
+
+        document.getElementById('misuseBtn').addEventListener('click', async () => {
+            if (!confirm("Report misuse?")) return;
+            const input = document.getElementById('vehicleInput');
+            try {
+                const res = await fetch(getApiUrl('/process_verification'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        slot_id: slotId,
+                        actual_reg_num: input.value.toUpperCase(),
+                        action: 'report_misuse'
+                    })
+                });
+                const data = await res.json();
+                alert(data.message);
+                location.reload();
+            } catch (e) { alert("Error"); }
+        });
+
+        initPage();
+    </script>
+    <!-- API SETTINGS MODAL -->
+    <div id="apiSettingsModal" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+        <div style="background:#1a1f2b; border-radius:30px; padding:2rem; max-width:400px; width:90%; border:1px solid rgba(255,255,255,0.1);">
+            <h4 style="color:#ffffff; font-weight:700; margin-bottom:1rem;">⚙️ Backend API Settings</h4>
+            <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1.25rem;">Set the URL for the local parking backend (e.g., http://192.168.1.5:5000).</p>
+            <input id="apiUrlInput" type="text" class="form-control mb-3 p-3 bg-dark text-white border-secondary rounded-3" placeholder="http://localhost:5000">
+            <div class="d-flex gap-2">
+                <button onclick="saveApiUrl()" class="btn btn-primary flex-grow-1 p-2">Save & Reload</button>
+                <button onclick="closeApiSettings()" class="btn btn-outline-light p-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <!-- API SETTINGS MODAL -->
+    <div id="apiSettingsModal" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+        <div style="background:#1a1f2b; border-radius:30px; padding:2rem; max-width:400px; width:90%; border:1px solid rgba(255,255,255,0.1);">
+            <h4 style="color:#ffffff; font-weight:700; margin-bottom:1rem;">⚙️ Backend API Settings</h4>
+            <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1.25rem;">Set the URL for the local parking backend (e.g., http://192.168.1.5:5000).</p>
+            <input id="apiUrlInput" type="text" class="form-control mb-3 p-3 bg-dark text-white border-secondary rounded-3" placeholder="http://localhost:5000">
+            <div class="d-flex gap-2">
+                <button onclick="saveApiUrl()" class="btn btn-primary flex-grow-1 p-2">Save & Reload</button>
+                <button onclick="closeApiSettings()" class="btn btn-outline-light p-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

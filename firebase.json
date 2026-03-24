@@ -1,0 +1,30 @@
+{
+  "hosting": [
+    {
+      "target": "guest-pwa",
+      "public": "OptiSlot_Guest/dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "static-templates",
+      "public": "templates",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false
+    }
+  ]
+}

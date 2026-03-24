@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "optislot"
+  },
+  "targets": {
+    "optislot": {
+      "hosting": {
+        "guest-pwa": [
+          "optislot"
+        ],
+        "static-templates": [
+          "optislot-templates"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
