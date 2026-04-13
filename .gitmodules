@@ -1,6 +1,0 @@
-[submodule "AIML_Assignment"]
-	path = AIML_Assignment
-	url = ./AIML_Assignment
-[submodule "Parking_QR"]
-	path = Parking_QR
-	url = ./Parking_QR
