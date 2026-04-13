@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiSlot — Initializing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #e4e4e7;
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* ─── Background animation ─── */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .bg-grid::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* ─── Container ─── */
+        .loader-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+        }
+
+        /* ─── Logo ─── */
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #0ea5e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .subtitle {
+            font-size: 0.6875rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #71717a;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        /* ─── Orbit animation ─── */
+        .orbit-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 3rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 50%;
+            animation: orbitSpin 6s linear infinite;
+        }
+
+        .orbit-ring::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6366f1;
+            box-shadow: 0 0 16px rgba(99, 102, 241, 0.6);
+            transform: translateX(-50%);
+        }
+
+        .orbit-ring:nth-child(2) {
+            inset: 18px;
+            border-color: rgba(139, 92, 246, 0.12);
+            animation-duration: 4s;
+            animation-direction: reverse;
+        }
+
+        .orbit-ring:nth-child(2)::before {
+            background: #8b5cf6;
+            box-shadow: 0 0 16px rgba(139, 92, 246, 0.6);
+            width: 6px;
+            height: 6px;
+        }
+
+        .orbit-ring:nth-child(3) {
+            inset: 36px;
+            border-color: rgba(14, 165, 233, 0.1);
+            animation-duration: 3s;
+        }
+
+        .orbit-ring:nth-child(3)::before {
+            background: #0ea5e9;
+            box-shadow: 0 0 12px rgba(14, 165, 233, 0.5);
+            width: 5px;
+            height: 5px;
+        }
+
+        .orbit-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            animation: corePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes orbitSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes corePulse {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.15);
+                opacity: 0.7;
+            }
+        }
+
+        /* ─── Steps ─── */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step.loading {
+            border-color: rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .step.done {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .step.error {
+            border-color: rgba(244, 63, 94, 0.3);
+            background: rgba(244, 63, 94, 0.05);
+        }
+
+        .step-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+            transition: all 0.4s;
+        }
+
+        .step.pending .step-icon {
+            background: rgba(255, 255, 255, 0.06);
+            color: #52525b;
+        }
+
+        .step.loading .step-icon {
+            background: rgba(99, 102, 241, 0.15);
+            animation: iconPulse 1.2s ease-in-out infinite;
+        }
+
+        .step.done .step-icon {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .step.error .step-icon {
+            background: rgba(244, 63, 94, 0.15);
+            color: #f43f5e;
+        }
+
+        @keyframes iconPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.9);
+            }
+        }
+
+        .step-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .step-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .step-detail {
+            font-size: 0.625rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #71717a;
+            margin-top: 0.125rem;
+        }
+
+        .step-time {
+            font-size: 0.625rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #52525b;
+        }
+
+        .step.done .step-time {
+            color: #10b981;
+        }
+
+        /* ─── Progress bar ─── */
+        .progress-bar {
+            margin-top: 2rem;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.7s forwards;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #0ea5e9);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+        }
+
+        /* ─── Ready state ─── */
+        .ready-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0f;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+
+        .ready-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .ready-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ready-overlay.active .ready-text {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .ready-text span {
+            background: linear-gradient(135deg, #10b981, #0ea5e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.2em;
+            color: #3f3f46;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.9s forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+
+    <div class="loader-container">
+        <div class="logo">Opti<span>Slot</span></div>
+        <div class="subtitle">Smart Parking Edge Node</div>
+
+        <div class="orbit-container">
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring"></div>
+            <div class="orbit-core">🚗</div>
+        </div>
+
+        <div class="steps" id="steps">
+            <div class="step pending" id="step-db">
+                <div class="step-icon">🗄️</div>
+                <div class="step-text">
+                    <div class="step-name">Database</div>
+                    <div class="step-detail">SQLite schema</div>
+                </div>
+                <div class="step-time" id="time-db"></div>
+            </div>
+            <div class="step pending" id="step-network">
+                <div class="step-icon">🌐</div>
+                <div class="step-text">
+                    <div class="step-name">Network</div>
+                    <div class="step-detail">IP mapping & tunnel</div>
+                </div>
+                <div class="step-time" id="time-network"></div>
+            </div>
+            <div class="step pending" id="step-yolo">
+                <div class="step-icon">🔍</div>
+                <div class="step-text">
+                    <div class="step-name">YOLOv8 Model</div>
+                    <div class="step-detail">License plate detection</div>
+                </div>
+                <div class="step-time" id="time-yolo"></div>
+            </div>
+            <div class="step pending" id="step-easyocr">
+                <div class="step-icon">📖</div>
+                <div class="step-text">
+                    <div class="step-name">EasyOCR Engine</div>
+                    <div class="step-detail">Character recognition</div>
+                </div>
+                <div class="step-time" id="time-easyocr"></div>
+            </div>
+            <div class="step pending" id="step-camera">
+                <div class="step-icon">📷</div>
+                <div class="step-text">
+                    <div class="step-name">Camera System</div>
+                    <div class="step-detail">Video feed init</div>
+                </div>
+                <div class="step-time" id="time-camera"></div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="ready-overlay" id="ready-overlay">
+        <div class="ready-text">✓ <span>System Ready</span></div>
+    </div>
+
+    <div class="footer">Edge Computing · Zero Latency · Offline First</div>
+
+    <script>
+        const POLL_INTERVAL = 500;
+        const TOTAL_STEPS = 5;
+        let completedSteps = 0;
+        let wasReady = false;
+
+        function updateStep(id, status, time) {
+            const el = document.getElementById('step-' + id);
+            const timeEl = document.getElementById('time-' + id);
+            if (!el) return;
+
+            el.className = 'step ' + status;
+
+            if (status === 'done' && time !== null) {
+                timeEl.textContent = time + 's';
+            } else if (status === 'loading') {
+                timeEl.textContent = '...';
+            } else if (status === 'error') {
+                timeEl.textContent = 'ERR';
+            } else if (status === 'skipped') {
+                timeEl.textContent = 'SKIP';
+                el.className = 'step done';
+            }
+        }
+
+        async function poll() {
+            try {
+                const res = await fetch('/api/boot_status');
+                const data = await res.json();
+
+                // Update each step
+                updateStep('db', data.steps.db.status, data.steps.db.time);
+                updateStep('network', data.steps.network.status, data.steps.network.time);
+                updateStep('yolo', data.steps.yolo.status, data.steps.yolo.time);
+                updateStep('easyocr', data.steps.easyocr.status, data.steps.easyocr.time);
+                updateStep('camera', data.steps.camera.status, data.steps.camera.time);
+
+                // Count completed
+                completedSteps = Object.values(data.steps)
+                    .filter(s => s.status === 'done' || s.status === 'skipped' || s.status === 'error')
+                    .length;
+
+                // Update progress bar
+                const pct = Math.round((completedSteps / TOTAL_STEPS) * 100);
+                document.getElementById('progress-fill').style.width = pct + '%';
+
+                // All done?
+                if (data.ready && !wasReady) {
+                    wasReady = true;
+                    document.getElementById('progress-fill').style.width = '100%';
+
+                    setTimeout(() => {
+                        const overlay = document.getElementById('ready-overlay');
+                        overlay.classList.add('active');
+
+                        setTimeout(() => {
+                            window.location.href = '/dashboard';
+                        }, 1200);
+                    }, 600);
+
+                    return; // Stop polling
+                }
+            } catch (e) {
+                // Server not ready yet, keep polling
+            }
+
+            setTimeout(poll, POLL_INTERVAL);
+        }
+
+        // Start polling
+        setTimeout(poll, 300);
+    </script>
+</body>
+
+</html>

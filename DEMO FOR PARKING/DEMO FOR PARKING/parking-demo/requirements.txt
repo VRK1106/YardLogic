@@ -1,0 +1,5 @@
+flask
+qrcode
+gunicorn
+pymongo
+dnspython
