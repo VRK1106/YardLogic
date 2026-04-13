@@ -1,0 +1,59 @@
+# Tech Stack & Algorithms Explained (Beginner Friendly)
+
+This document explains the "Brain" behind your **OptiSlot AO** Smart Parking System in simple terms.
+
+## 1. The Technology Stack (The Building Blocks)
+
+Think of the tech stack as the tools and materials used to build a house.
+
+| Component | Technology | Why we chose it |
+| :--- | :--- | :--- |
+| **Programming Language** | **Python** | The most popular language for AI and Data Science. It's easy to read and has huge support for libraries. |
+| **The Backend (Brain)** | **FastAPI** | A modern, high-performance web framework. It handles all the logic (receiving images, saving to DB) very quickly. |
+| **The Frontend (Face)** | **Streamlit** | A tool that turns Python scripts into interactive web apps instantly. It allows us to show the dashboard without complex web coding. |
+| **The Database (Memory)** | **SQLite (via SQLModel)** | A lightweight file-based database. It stores parking slot info and logs locally without needing a heavy server. |
+| **AI Memory** | **ChromaDB** | A "Vector Database". Unlike normal databases that store text, this stores "mathematical representations" of images, allowing the AI to "remember" if it has seen a specific car before. |
+
+---
+
+## 2. Key Libraries (The Power Tools)
+
+These are pre-made collections of code that save us from reinventing the wheel.
+
+*   **Ultralytics (YOLOv8)**:
+    *   *What it does:* **"You Only Look Once"**. It's an incredibly fast AI model that looks at an image and instantly draws boxes around objects it recognizes.
+    *   *Our use:* We use it to detect **Vehicles** (cars, trucks, motorcycles) and determine their **Size**.
+
+*   **EasyOCR**:
+    *   *What it does:* **Optical Character Recognition**. It reads text inside images.
+    *   *Our use:* It looks at the license plate area and translates the pixels into actual text characters (e.g., "MH12AB1234").
+
+*   **OpenCV**:
+    *   *What it does:* The "Photoshop" of code. It allows the computer to edit, resize, and convert images mathematically.
+    *   *Our use:* We use it to decode the raw image bytes coming from the camera so the AI can process them.
+
+*   **SQLModel**:
+    *   *What it does:* It acts as a translator between our Python code and the Database. Instead of writing complex SQL queries, we just work with Python objects.
+
+---
+
+## 3. The Algorithms (The Logic)
+
+Algorithms are the "recipes" or step-by-step instructions the computer follows to solve problems.
+
+### A. Intelligent Vehicle Detection (Computer Vision)
+1.  **Input**: The camera takes a picture.
+2.  **Detection**: YOLOv8 scans the image. If it sees a `Bus` or `Truck`, it classifies the size as **Large**. If it sees a `Car`, it's **Medium**. If `Motorcycle`, it's **Small**.
+3.  **Plate Reading**: EasyOCR reads the text on the plate.
+    *   *Smart Fix:* We wrote a custom **Heuristic Algorithm** that knows plates should look like `TT-NN-TT-NNNN` (Text, Number...). If the AI reads a zero `0` as a letter `O` in a number spot, this algorithm automatically fixes it!
+
+### B. Smart Slot Allocation Engine (Proprietary)
+This is the core intelligence of the system. Instead of simply finding the first empty spot, our custom engine analyzes the entire parking lot to find the **Mathematically Optimal** slot for each vehicle.
+*   **The Goal**: Maximize parking density and ensure large vehicles always have space, even during peak hours.
+*   **The Magic**: It dynamically weighs vehicle dimensions against available infrastructure to make a decision in milliseconds that a human operator couldn't compute in minutes.
+
+### C. Vector Re-Identification (The "Memory")
+How does the system know if a car is a returning visitor?
+1.  **Embedding**: When a car enters, the AI converts its visual features into a list of numbers (a "Vector").
+2.  **Cosine Similarity**: When a new car comes, we compare its numbers with stored numbers. If the numbers are very close (pointing in the same direction), it's a match!
+3.  *Note:* In this assignment, we use a random vector for demonstration, but in production, this would use the actual visual "fingerprint" of the car.

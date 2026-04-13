@@ -1,0 +1,30 @@
+{
+    "parking_lot_dimensions": {
+        "width_meters": 20.0,
+        "height_meters": 15.0
+    },
+    "scale_pixels_per_meter": 20,
+    "entry_gate": {
+        "x": 0.0,
+        "y": 13.0,
+        "width": 4.0,
+        "height": 2.0
+    },
+    "exit_gate": {
+        "x": 16.0,
+        "y": 13.0,
+        "width": 4.0,
+        "height": 2.0
+    },
+    "pillars": [
+        {"x": 5.0, "y": 5.0, "width": 1.0, "height": 1.0},
+        {"x": 14.0, "y": 5.0, "width": 1.0, "height": 1.0},
+        {"x": 5.0, "y": 10.0, "width": 1.0, "height": 1.0},
+        {"x": 14.0, "y": 10.0, "width": 1.0, "height": 1.0}
+    ],
+    "zones": {
+        "Small": {"color": "green", "preferred_area": [0, 0, 10, 7]},
+        "Medium": {"color": "blue", "preferred_area": [10, 0, 20, 7]},
+        "Large": {"color": "orange", "preferred_area": [0, 7, 20, 13]}
+    }
+}

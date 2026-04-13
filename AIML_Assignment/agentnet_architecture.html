@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AgentNet Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+
+        .box {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>AgentNet — Smart Parking System</h1>
+    <p>Multi-Agent AI Architecture &middot; AIML Assignment</p>
+
+    <div class="box">
+        <div class="mermaid">
+            flowchart LR
+            CAM[["Camera"]] --> VA["VisionAgent\nYOLO + OCR\nPlate Reading"]
+            VA -->|plate + size| AA["AllocationAgent\nBest-Fit\nSlot Assign"]
+            AA -->|slot_id| DB[("Supabase DB")]
+            AA --> GATE["Gate Opens"]
+
+            QR[["Driver scans QR"]] --> VER["VerificationAgent\nSlot Cross-Check"]
+            VER --> DB
+
+            EXIT[["Driver exits"]] --> BA["BillingAgent\nRs.20 per hr\nMin Rs.10"]
+            BA --> DB
+            BA --> DONE["Receipt + Slot Freed"]
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+
+</html>

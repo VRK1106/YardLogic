@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlmodel
+aiosqlite
+pydantic
+sqlalchemy
+ultralytics
+opencv-python-headless
+python-multipart
+chromadb
+streamlit
+requests
+easyocr
+supabase
+python-dotenv
